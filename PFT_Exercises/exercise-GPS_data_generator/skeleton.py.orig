@@ -1,0 +1,26 @@
+#import the random module
+
+#Set your starting coordinates
+
+#Open a file to write into
+out = open("coordinates.csv")
+out.write('type,latitude,longitude\n')  # Start line
+
+#A for loop to repeat X times
+    #Random choice: North/South
+    #Random choice: East/West?
+
+    #Random difference: How much difference in lat and long pos?
+
+    #Latitude
+    if North == True:
+        latPos += latDiff
+    else:
+        ...
+    #The same for Longitude
+
+    #Write into the file
+    output = 'T,{},{}\n'.format(latPos, longPos)
+    out.write(output)
+    
+#Close the file to behave nicely

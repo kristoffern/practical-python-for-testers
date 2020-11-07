@@ -1,0 +1,9 @@
+Installation path [/opt/esconfs]:
+Full or light installation [Full/Light]:
+Deploy web server  [Y/N]:
+On which port [80]:
+Admin user account [admin]:
+Admin acount password []:
+Backup previous data [Y/N]:
+Backup path [~/esconfs_backup/]:
+Install with these setting [Y/N]:
