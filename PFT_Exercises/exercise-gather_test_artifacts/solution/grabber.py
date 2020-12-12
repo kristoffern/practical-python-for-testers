@@ -1,31 +1,33 @@
+import ftplib
+import glob
 import os
 import shutil
-import ftplib
 import zipfile
+
 from datetime import datetime
 
-if __name__ == '__main__':
-    # Remove the target directory if it exists
-    if os.path.isdir('/tmp/testartifacts'):
-        shutil.rmtree('/tmp/testartifacts')
-    # Create an empty directory
-    os.makedirs('/tmp/testartifacts')
-    # Copy the files
-    shutil.copy('/opt/PFT/firstLarge', '/tmp/testartifacts')
-    shutil.copy('/opt/PFT/secondLarge', '/tmp/testartifacts')
+testartifacts_folder = '/tmp/testartifacts'
 
-    # Generate file name for the zip file
-    filename = datetime.now().strftime('testartifacts_%Y%m%d_%H%M%S.zip')
-    filepath = os.path.join('/tmp/', filename)
+if(os.path.isdir(testartifacts_folder)):
+    shutil.rmtree(testartifacts_folder)
+os.mkdir(testartifacts_folder)
 
-    # Create ZIP file and write contents
-    zipf = zipfile.ZipFile(filepath, 'w', zipfile.ZIP_DEFLATED)
-    zipf.write('/tmp/testartifacts/firstLarge')
-    zipf.write('/tmp/testartifacts/secondLarge')
-    zipf.close()
+log_folders = ['/opt/PFT/DataDigger', '/home/pft/output', '/opt/SUT/logs']
 
-    # Use FTP to upload the files
-    session = ftplib.FTP('127.0.0.1', 'tester', 'python')
-    session.cwd('upload')
-    trfile = open(filepath, 'rb')
-    session.storbinary('STOR ' + filename, trfile)
+for folder in log_folders:
+    found_files = glob.glob(os.path.join(folder, '*.log'))
+    for log_file in found_files:
+        shutil.copy(log_file, testartifacts_folder)
+
+now = datetime.now()
+filename = now.strftime('testartifacts_%Y%m%d_%H%M%S.zip')
+
+zipf = zipfile.ZipFile(filename, 'w', zipfile.ZIP_DEFLATED)
+for log_file in glob.glob(os.path.join(testartifacts_folder, '*.log')):
+    zipf.write(log_file)
+zipf.close()
+
+session = ftplib.FTP('127.0.0.1', 'tester', 'python')
+session.cwd('upload')
+local_file = open(filename, 'rb')
+session.storbinary('STOR {}'.format(filename), local_file)

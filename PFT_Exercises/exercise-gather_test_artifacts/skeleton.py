@@ -1,19 +1,26 @@
+import ftplib
+import glob
 import os
 import shutil
-import ftplib
 import zipfile
 from datetime import datetime
 
-# Check if script is invoked from command line:
-
 # Create a folder to copy the artifacts into
 
-# Copy the files
+# Define the list of folders to look in for log files
+# A for loop for every folder in the list
+	
+	# use glob.glob() to list all .log files in folder
+
+	# A for loop for every file found by glob
+		# Copy the file into testartifacts folder
 
 # Create a filename with the timestamp
-# And extend the path to include your folder
+# And extend the path to include your testartifacts folder
 
 # Open a zipfile for writing
-# Write files into it. Dont forget to close
+# For every log-file in testartifacts 
+# Write the files into the zip archive. 
 
+# Dont forget to close the zip archive
 # Open an ftp session and upload the file
